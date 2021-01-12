@@ -1,0 +1,87 @@
+{% extends "shop/base.html" %}
+{% load static  %}
+
+{% block title %}
+  Your shopping cart
+{% endblock %}
+
+
+{% block shop_content %}
+  <h2>Your Shopping Cart</h2>
+  <table class='cart'>
+    <thead>
+      <tr>
+        <th>image</th>
+        <th>product</th>
+        <th>quantity</th>
+        <th>remove</th>
+        <th>unit price</th>
+        <th>price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with product=item.product %}
+        <tr>
+          <td>
+            <a href="{{product.get_absolute_url}}">
+              <img src="{% if product.image %}{{product.image.url}}{% else %}No image available{% endif %}">
+            </a>
+          </td>
+          <td> {{ product.name }} </td>
+          <td>
+            <form class="" action="{% url 'cart:cart_add' product.id %}" method="post">
+              {{item.quantity_update_form.quantity}}
+              {{item.quantity_update_form.update}}
+              <input type="submit" name="" value="Update">
+              {% csrf_token %}
+            </form>
+         </td>
+          <td>
+            <a href="{% url 'cart:cart_remove' product.id %}">Remove</a>
+          </td>
+          <td> {{item.price}} </td>
+          <td> {{ item.total_price }} </td>
+        </tr>
+        {% endwith %}
+      {% endfor %}
+      {% if cart.coupon %}
+        <tr class='subtotal'>
+          <td>Subtotal</td>
+          <td colspan='4'></td>
+          <td>Rs.{{cart.get_total_price|floatformat:"2"}}</td>
+        </tr>
+        <tr>
+          <td>
+            "{{cart.coupon.code}}" coupon
+            ({{cart.coupon.discount}}% off)
+          </td>
+          <td colspan='4'></td>
+          <td>
+            - Rs.{{cart.get_discount|floatformat:'2'}}
+          </td>
+        </tr>
+      {% endif %}
+      <tr class="total">
+        <td>Total</td>
+        <td colspan='4'></td>
+        <td>
+          Rs.{{cart.get_total_price_after_discount}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  {% if request.user.is_authenticated %}
+  <p>Apply a coupon:</p>
+  <form class="" action="{% url 'coupons:apply' %}" method="post">
+    {{coupon_apply_form}}
+    <input type="submit" name="" value="Apply">
+    {% csrf_token %}
+  </form>
+  {% endif %}
+
+  <p class="text-right">
+    <a href="{% url 'shop:product_list' %}" class='button light' >Continue shopping</a>
+    <a href="{% url 'orders:order_create' %}" class='button'>Checkout</a>
+  </p>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Log In
+{% endblock %}
+
+{% block content2 %}
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+$(window).load(function()
+{
+    $('#myModal').modal('show');
+});
+</script>
+
+
+<div class="row">
+
+  <!-- Modal -->
+  <div class="modal show" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h4 class="modal-title  d-flex justify-content-center">Log In</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+          {% if form.errors %}
+            <p>
+              Your username and password does not matched.
+              Please try again.
+            </p>
+          {% else %}
+            <p>Please use the following form to log-in or <a href="{% url 'register' %}">register here</a> </p>
+          {% endif %}
+          <br>
+          <div class="login-form  d-flex justify-content-center">
+            <form class="" action="{% url 'login' %}" method="post">
+              {{form.as_p}}
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{next}}">
+              <p> <input type="submit" name="" value="Log In"> </p>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <a href="{% url 'password_reset' %}">Forgotten your password?</a>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

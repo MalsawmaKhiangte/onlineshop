@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+  dashboard
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block content2 %}
+  <div id="subheader">
+    <h1>Dashboard</h1>
+    <p>Welcome to dashboard. <br> You can <a href="{% url 'edit' %}">Edit you profile</a> or <a href="{% url 'password_change' %}">Change your password</a></p>
+    <div class="float-right">
+      {% if request.user.is_authenticated %}
+        Hello {{request.user.username}} ||
+        <a href="{% url 'logout'%}">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}"></a>
+      {% endif %}
+    </div>
+  </div>
+
+  <br><br>
+
+    <style media="screen">
+    img {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      width: 150px;
+    }
+    </style>
+
+  <div class="container">
+    <img src="{% if user.profile.photo %}
+      {{user.profile.photo.url}}
+      {% else %}
+      {% static "img/no_image.png" %}
+      {% endif %}">
+  </div>
+  <p>Account Details:</p>
+
+  <table>
+    <tr>
+      <th>Username:</th>
+      <td>{{request.user.username}}</td>
+    </tr>
+    <tr>
+      <th>Firstname:</th>
+      <td>{{request.user.first_name}}</td>
+    </tr>
+    <tr>
+      <th>Lastname:</th>
+      <td>{{request.user.last_name}}</td>
+    </tr>
+    <tr>
+      <th>Email:</th>
+      <td>{{request.user.email}}</td>
+    </tr>
+  </table>
+{% endblock %}

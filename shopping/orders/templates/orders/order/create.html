@@ -1,0 +1,39 @@
+{% extends "shop/base.html" %}
+{% load static  %}
+
+{% block title %}
+  Checkout
+{% endblock %}
+
+{% block shop_content %}
+  <h1>Checkout</h1>
+
+  <div class="order-info">
+    <h3>Your Orders</h3>
+      <ul>
+        {% for item in cart %}
+          <li>
+            {{item.quantity}} x {{ item.product.name }}
+            <span>Rs. {{item.total_price|floatformat:"2"}}</span>
+          </li>
+        {% endfor %}
+        {% if cart.coupon %}
+          <li>
+            "{{cart.coupon.code}}" ({{cart.coupon.discount}}% off)
+            <span> -Rs. {{cart.get_discount|floatformat:"2"}}</span>
+          </li>
+        {% endif %}
+      </ul>
+      <p>Total: Rs.{{cart.get_total_price_after_discount|floatformat:"2"}}</p>
+  </div>
+
+  <form class="order-form" action="." method="post">
+    {{form.as_p}}
+    <p>
+      <input type="submit" name="" value="Place Order">
+    </p>
+    {% csrf_token %}
+  </form>
+
+
+{% endblock %}

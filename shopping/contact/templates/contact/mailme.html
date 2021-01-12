@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Contact
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block content2 %}
+  <form action="." method="post">
+    {% csrf_token %}
+    <textarea name="message" rows="30" cols="80" placeholder="Message...."></textarea>
+    <input type="submit" name="" value="Send">
+  </form>
+{% endblock %}
