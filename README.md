@@ -9,7 +9,7 @@ Coupon applied to registered customer only <br><br>
 
 and then <b> fill up order form </b> and ordered them through <b> paytm payment gateway </b>
 
-Users may change 
+From Dashboard Users may change 
 <ul>
 <li>Password</li>
 <li>Profile photo</li>
